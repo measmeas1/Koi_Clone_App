@@ -1,15 +1,15 @@
 # assignment
 
-A new Flutter project.
+A new Flutter project from school.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is a starting point for clone an app for school assignment.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Set up flutter:
+```
+flutter create assignment
+```
 
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
