@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_final_fields, unused_field
 
 import 'package:assignment/data/announcements.dart';
+import 'package:assignment/screens/announcement_detail_screen.dart';
+import 'package:assignment/screens/announcement_screen.dart';
 import 'package:assignment/widgets/announcement_card.dart';
 import 'package:flutter/material.dart';
 
@@ -90,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 5,
               decoration: BoxDecoration(
                 color: _currentPage == index
-                    ? Colors.orange
+                    ? Colors.orange.shade600
                     : Colors.grey.shade400,
                 borderRadius: BorderRadius.circular(3),
               ),
@@ -181,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   });
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
+                  backgroundColor: Colors.orange.shade600,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20),
@@ -207,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Container(
                     padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.orange,
+                      color: Colors.orange.shade600,
                       borderRadius: BorderRadius.only(
                           topRight: Radius.circular(20),
                           bottomRight: Radius.circular(20)),
@@ -262,7 +264,7 @@ Widget _buildIconColumn({
             width: 200,
             height: 100,
             decoration: BoxDecoration(
-              color: Colors.orange,
+              color: Colors.orange.shade600,
               borderRadius: BorderRadius.circular(12),
             ),
           ),
@@ -310,11 +312,11 @@ Widget _buildIconColumn({
                 GestureDetector(
                   child: Text(
                     "See All",
-                    style: TextStyle(fontSize: 16, color: Colors.orange),
+                    style: TextStyle(fontSize: 16, color: Colors.orange.shade700),
                   ),
                   onTap: () {
-                    // Handle the "See All" action
                     // For example, navigate to a full announcement screen
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AnnouncementScreen(announcements: announcements)));
                   },
                 ),
               ],
@@ -332,12 +334,12 @@ Widget _buildIconColumn({
               onOrderPressed: () {},
               onCardPressed: () {
                 // Navigate to a new screen when the card is clicked
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => (), // Replace with the screen you want
-                //   ),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AnnouncementDetailScreen(), // Replace with the screen you want
+                  ),
+                );
               },
             ),
           );
