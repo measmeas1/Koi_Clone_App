@@ -16,9 +16,9 @@ class _HomeScreenState extends State<HomeScreen> {
   int _bubbles = 0;
 
   final List<String> _images = [
-    'assets/banner1.png',
-    'assets/banner2.png',
-    'assets/banner3.png',
+    'lib/assets/koi_3.jpg',
+    'lib/assets/koi_2.jpg',
+    'lib/assets/red_green.jpg',
   ];
 
   @override
@@ -35,13 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
             // Greetings Section
             _buildGreetingSection(greetingMessage),
-            const SizedBox(height: 10),
+            const SizedBox(height: 40),
 
             _buildPickupAndDelivery(),
-
-            SizedBox(
-              height: 10,
-            ),
 
             _buildAnnouncementsSection()
           ],
@@ -230,108 +226,128 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildPickupAndDelivery() {
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Column(
-            children: [
-              Container(
-                width: 200,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: Colors.orange,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text('Pickup',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            ],
-          ),
-          const SizedBox(width: 10),
-          Column(
-            children: [
-              Container(
-                width: 200,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: Colors.orange,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text('Delivery',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+ Widget _buildPickupAndDelivery() {
+  return Padding(
+    padding: const EdgeInsets.only(top: 15),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _buildIconColumn(
+          imageUrl: 'lib/assets/pickup_icon.png',
+          label: 'Pickup',
+          alignment: Alignment.topLeft, 
+        ),
+        const SizedBox(width: 10),
+        _buildIconColumn(
+          imageUrl: 'lib/assets/delivery_icon.png',
+          label: 'Delivery',
+          alignment: Alignment.bottomCenter, 
+        ),
+      ],
+    ),
+  );
+}
 
-  Widget _buildAnnouncementsSection() {
-    return Padding(
-      padding: const EdgeInsets.only(top:10 , left: 20, right: 20,),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+Widget _buildIconColumn({
+  required String imageUrl,
+  required String label,
+  required Alignment alignment,
+}) {
+  return Column(
+    children: [
+      Stack(
+        clipBehavior: Clip.none, 
         children: [
-          // Row for Announcements title and the first Announcement Card
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Announcements",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-              GestureDetector(
-                child: Text(
-                  "See All",
-                  style: TextStyle(fontSize: 16, color: Colors.orange),
-                ),
-                onTap: () => {},
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-
-          // Display the first announcement card near the title
-          Padding(
-            padding: const EdgeInsets.only(bottom: 0),
-            child: AnnouncementCard(
-              imageUrl: announcements[0]["imageUrl"]!,
-              title: announcements[0]["title"]!,
-              subtitle: announcements[0]["subtitle"],
-              onOrderPressed: () {},
+          Container(
+            width: 200,
+            height: 100,
+            decoration: BoxDecoration(
+              color: Colors.orange,
+              borderRadius: BorderRadius.circular(12),
             ),
           ),
-
-          // List of additional announcement cards
-          ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount:
-                announcements.length - 1, // Exclude the first announcement
-            itemBuilder: (context, index) {
-              final announcement =
-                  announcements[index + 1]; // Start from the second item
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: AnnouncementCard(
-                  imageUrl: announcement["imageUrl"]!,
-                  title: announcement["title"]!,
-                  subtitle: announcement["subtitle"],
-                  onOrderPressed: () {},
-                ),
-              );
-            },
+          Positioned(
+            left: alignment == Alignment.topLeft ? -10 : null,
+            right: alignment == Alignment.topRight ? -10 : null,
+            top: alignment == Alignment.topLeft ? -35 : -34,  
+            child: Image.asset(
+              imageUrl,
+              width: 200,  
+              height: 140, 
+              fit: BoxFit.cover, 
+            ),
           ),
         ],
       ),
-    );
-  }
+      const SizedBox(height: 8),
+      Text(
+        label,
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+      ),
+    ],
+  );
+}
+
+ Widget _buildAnnouncementsSection() {
+  return Padding(
+    padding: const EdgeInsets.only(left: 20, right: 20),
+    child: ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: announcements.length + 1, // Add one for the title and "See All" link
+      itemBuilder: (context, index) {
+        // Check if we are at the first item (Announcements title + See All link)
+        if (index == 0) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Announcements",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+                GestureDetector(
+                  child: Text(
+                    "See All",
+                    style: TextStyle(fontSize: 16, color: Colors.orange),
+                  ),
+                  onTap: () {
+                    // Handle the "See All" action
+                    // For example, navigate to a full announcement screen
+                  },
+                ),
+              ],
+            ),
+          );
+        } else {
+          // If not the first item, return an AnnouncementCard
+          final announcement = announcements[index - 1]; // Adjust index to skip the title row
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: AnnouncementCard(
+              imageUrl: announcement["imageUrl"]!,
+              title: announcement["title"]!,
+              subtitle: announcement["subtitle"],
+              onOrderPressed: () {},
+              onCardPressed: () {
+                // Navigate to a new screen when the card is clicked
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => (), // Replace with the screen you want
+                //   ),
+                // );
+              },
+            ),
+          );
+        }
+      },
+    ),
+  );
+}
+
+
 
   @override
   void dispose() {
