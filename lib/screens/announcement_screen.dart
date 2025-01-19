@@ -46,7 +46,7 @@ class AnnouncementScreen extends StatelessWidget {
                 onOrderPressed: () {},
                 onCardPressed: () {
                   // Handle card press action (e.g., navigate to details)
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AnnouncementDetailScreen()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AnnouncementDetailScreen(announcement: announcement,)));
                 },
               ),
             );

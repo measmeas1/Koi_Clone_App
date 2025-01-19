@@ -337,7 +337,7 @@ Widget _buildIconColumn({
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AnnouncementDetailScreen(), // Replace with the screen you want
+                    builder: (context) => AnnouncementDetailScreen(announcement: announcement,), // Replace with the screen you want
                   ),
                 );
               },
