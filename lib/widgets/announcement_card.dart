@@ -6,7 +6,6 @@ class AnnouncementCard extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String subtitle;
-  final String? price;
   final VoidCallback onOrderPressed;
   final VoidCallback onCardPressed; // Added callback for card click
 
@@ -14,7 +13,6 @@ class AnnouncementCard extends StatelessWidget {
     required this.imageUrl,
     required this.title,
     required this.subtitle,
-    this.price,
     required this.onOrderPressed,
     required this.onCardPressed, // Constructor for card click
     super.key,
@@ -40,7 +38,8 @@ class AnnouncementCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(16)),
               child: Image.asset(imageUrl,
                   height: 500, width: double.infinity, fit: BoxFit.cover),
             ),
@@ -53,24 +52,26 @@ class AnnouncementCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(title,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
                           style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold)),
-                      const SizedBox(height: 5),
-                      Text(subtitle,
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          subtitle,
                           style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w500)),
-                      if (price != null) ...[
-                        const SizedBox(height: 8),
-                        Text(price!,
-                            style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold)),
+                              fontSize: 15, fontWeight: FontWeight.w500),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 12),
                       ],
-                      const SizedBox(height: 12),
-                    ],
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.only(bottom: 10),
