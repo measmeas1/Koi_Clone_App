@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_final_fields, unused_field
 
 import 'package:assignment/data/announcements.dart';
+import 'package:assignment/screens/account_screen.dart';
 import 'package:assignment/screens/announcement_detail_screen.dart';
 import 'package:assignment/screens/announcement_screen.dart';
 import 'package:assignment/widgets/announcement_card.dart';
@@ -21,6 +22,13 @@ class _HomeScreenState extends State<HomeScreen> {
     'lib/assets/koi_3.jpg',
     'lib/assets/koi_2.jpg',
     'lib/assets/red_green.jpg',
+  ];
+
+  final List<Widget> _screens = [
+    HomeScreen(), // Home screen widget
+    // MenuScreen(),   // Menu screen widget
+    // HistoryScreen(),// History screen widget
+    AccountScreen(), // Account screen widget
   ];
 
   @override
@@ -45,16 +53,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: Colors.orange,
-          unselectedItemColor: Colors.grey,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.local_drink), label: 'Menu'),
-            BottomNavigationBarItem(icon: Icon(Icons.list), label: 'History'),
-            BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Account'),
-          ]),
     );
   }
 
@@ -228,128 +226,135 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
- Widget _buildPickupAndDelivery() {
-  return Padding(
-    padding: const EdgeInsets.only(top: 15),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _buildIconColumn(
-          imageUrl: 'lib/assets/pickup_icon.png',
-          label: 'Pickup',
-          alignment: Alignment.topLeft, 
-        ),
-        const SizedBox(width: 10),
-        _buildIconColumn(
-          imageUrl: 'lib/assets/delivery_icon.png',
-          label: 'Delivery',
-          alignment: Alignment.bottomCenter, 
-        ),
-      ],
-    ),
-  );
-}
-
-Widget _buildIconColumn({
-  required String imageUrl,
-  required String label,
-  required Alignment alignment,
-}) {
-  return Column(
-    children: [
-      Stack(
-        clipBehavior: Clip.none, 
+  Widget _buildPickupAndDelivery() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            width: 200,
-            height: 100,
-            decoration: BoxDecoration(
-              color: Colors.orange.shade600,
-              borderRadius: BorderRadius.circular(12),
-            ),
+          _buildIconColumn(
+            imageUrl: 'lib/assets/pickup_icon.png',
+            label: 'Pickup',
+            alignment: Alignment.topLeft,
           ),
-          Positioned(
-            left: alignment == Alignment.topLeft ? -10 : null,
-            right: alignment == Alignment.topRight ? -10 : null,
-            top: alignment == Alignment.topLeft ? -35 : -34,  
-            child: Image.asset(
-              imageUrl,
-              width: 200,  
-              height: 140, 
-              fit: BoxFit.cover, 
-            ),
+          const SizedBox(width: 10),
+          _buildIconColumn(
+            imageUrl: 'lib/assets/delivery_icon.png',
+            label: 'Delivery',
+            alignment: Alignment.bottomCenter,
           ),
         ],
       ),
-      const SizedBox(height: 8),
-      Text(
-        label,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+    );
+  }
+
+  Widget _buildIconColumn({
+    required String imageUrl,
+    required String label,
+    required Alignment alignment,
+  }) {
+    return Column(
+      children: [
+        Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              width: 200,
+              height: 100,
+              decoration: BoxDecoration(
+                color: Colors.orange.shade600,
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            Positioned(
+              left: alignment == Alignment.topLeft ? -10 : null,
+              right: alignment == Alignment.topRight ? -10 : null,
+              top: alignment == Alignment.topLeft ? -35 : -34,
+              child: Image.asset(
+                imageUrl,
+                width: 200,
+                height: 140,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAnnouncementsSection() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: announcements.length +
+            1, // Add one for the title and "See All" link
+        itemBuilder: (context, index) {
+          // Check if we are at the first item (Announcements title + See All link)
+          if (index == 0) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Announcements",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  GestureDetector(
+                    child: Text(
+                      "See All",
+                      style: TextStyle(
+                          fontSize: 16, color: Colors.orange.shade700),
+                    ),
+                    onTap: () {
+                      // For example, navigate to a full announcement screen
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AnnouncementScreen(
+                                  announcements: announcements)));
+                    },
+                  ),
+                ],
+              ),
+            );
+          } else {
+            // If not the first item, return an AnnouncementCard
+            final announcement =
+                announcements[index - 1]; // Adjust index to skip the title row
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: AnnouncementCard(
+                imageUrl: announcement["imageUrl"]!,
+                title: announcement["title"]!,
+                subtitle: announcement["subtitle"],
+                onOrderPressed: () {},
+                onCardPressed: () {
+                  // Navigate to a new screen when the card is clicked
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AnnouncementDetailScreen(
+                        announcement: announcement,
+                      ), // Replace with the screen you want
+                    ),
+                  );
+                },
+              ),
+            );
+          }
+        },
       ),
-    ],
-  );
-}
-
- Widget _buildAnnouncementsSection() {
-  return Padding(
-    padding: const EdgeInsets.only(left: 20, right: 20),
-    child: ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: announcements.length + 1, // Add one for the title and "See All" link
-      itemBuilder: (context, index) {
-        // Check if we are at the first item (Announcements title + See All link)
-        if (index == 0) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Announcements",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
-                GestureDetector(
-                  child: Text(
-                    "See All",
-                    style: TextStyle(fontSize: 16, color: Colors.orange.shade700),
-                  ),
-                  onTap: () {
-                    // For example, navigate to a full announcement screen
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => AnnouncementScreen(announcements: announcements)));
-                  },
-                ),
-              ],
-            ),
-          );
-        } else {
-          // If not the first item, return an AnnouncementCard
-          final announcement = announcements[index - 1]; // Adjust index to skip the title row
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: AnnouncementCard(
-              imageUrl: announcement["imageUrl"]!,
-              title: announcement["title"]!,
-              subtitle: announcement["subtitle"],
-              onOrderPressed: () {},
-              onCardPressed: () {
-                // Navigate to a new screen when the card is clicked
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AnnouncementDetailScreen(announcement: announcement,), // Replace with the screen you want
-                  ),
-                );
-              },
-            ),
-          );
-        }
-      },
-    ),
-  );
-}
-
-
+    );
+  }
 
   @override
   void dispose() {
