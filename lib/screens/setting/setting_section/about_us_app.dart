@@ -1,20 +1,20 @@
-import 'dart:math';
+// ignore_for_file: file_names, prefer_const_constructors, prefer_const_literals_to_create_immutables, no_leading_underscores_for_local_identifiers
 
+
+import 'package:assignment/themes/theme_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class AboutUsApp extends StatelessWidget{
   const AboutUsApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-
+    ThemeMode _themeMode = context.watch<ThemeLogic>().mode;
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
 
-    Random random = Random();
-    int x = random.nextInt(4);
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Stack(
         children: [
           Image.network(
@@ -30,7 +30,7 @@ class AboutUsApp extends StatelessWidget{
                 backgroundColor: Colors.transparent,
                 expandedHeight: 260.0,
                 leading: IconButton(
-                    icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
+                    icon: Icon(Icons.arrow_back_ios, color: Colors.orange,),
                     onPressed: (){
                       Navigator.of(context).pop();
                     }
@@ -44,7 +44,7 @@ class AboutUsApp extends StatelessWidget{
                       width: double.infinity,
                       //height: double.infinity, use this will lead to bug
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: _themeMode == ThemeMode.dark ? Colors.grey.shade900 : Colors.grey.shade200,
                         borderRadius: BorderRadius.vertical(top: Radius.circular(34.0),),
                         boxShadow: [BoxShadow(blurRadius: 2.4, spreadRadius: 1.4, color: Colors.black38)],
                       ),
@@ -67,8 +67,9 @@ class AboutUsApp extends StatelessWidget{
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 15,
-                                  fontFamily: 'siemreap'
+                                  fontSize: 20,
+                                  fontFamily: 'siemreap',
+                                  fontWeight: FontWeight.bold
                                 ),
                               ),
                             ),
@@ -90,6 +91,7 @@ class AboutUsApp extends StatelessWidget{
 class _Owner extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
+    ThemeMode _themeMode = context.watch<ThemeLogic>().mode;
     return Container(
       padding: EdgeInsets.all(20.0),
       child: Column(
@@ -162,7 +164,7 @@ class _Owner extends StatelessWidget{
             margin: const EdgeInsets.symmetric(vertical: 28.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(29),
-              color: Colors.blueGrey[50],
+              color:  _themeMode == ThemeMode.dark ? Colors.grey.shade800 : Colors.blueGrey.shade50,
             ),
             child: Text(
               'មានស្ថង់ដាអនាម័យ និងផ្តល់ឲ្យអ្នកនូវអាហារឈ្ងុយឆ្ងាញ់រួមជាមួយនិងភេសជ្ជះសំបូរបែប។ ទីកន្លែងសម្រាប់ជួបប្រជុំ និងមានបណ្តាល័យអានសៀវភៅប្រកបដោយផាសុខភាព។',
@@ -170,7 +172,7 @@ class _Owner extends StatelessWidget{
                   fontSize: 15,
                   fontFamily: 'siemreap',
                   letterSpacing: 0,
-                  color: Colors.black45,
+                  color:  _themeMode == ThemeMode.dark ? Colors.grey.shade400 : Colors.black45,
               ),
             ),
           ),
@@ -213,10 +215,10 @@ class _About extends StatelessWidget{
         ),
         const SizedBox(height: 14.0,),
         const Divider(indent: 38, endIndent: 38,),
+        
       ],
     );
   }
-
 }
 
 class _Photo extends StatelessWidget{
@@ -305,21 +307,20 @@ class ItemList extends StatelessWidget{
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              icon == null ? const SizedBox() : Icon(icon, color: Colors.black, size: 28,),
+              icon == null ? const SizedBox() : Icon(icon,  size: 28,),
               Expanded(
                 child: Text(
                     "  $title",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: Colors.black,
+                    style:  TextStyle(
                       fontFamily: 'preahvihear',
                       fontSize: 18,
                       letterSpacing: 0,
                     )
                 ),
               ),
-              Icon(icon2 ?? Icons.arrow_drop_down, color: Colors.black, size: 28,),
+              Icon(icon2 ?? Icons.arrow_drop_down, size: 28,),
             ],
           ),
         ),
@@ -328,7 +329,6 @@ class ItemList extends StatelessWidget{
           child: Text(
             txt,
             style: TextStyle(
-              color: Colors.black54,
               fontSize: 16,
               fontFamily: 'siemreap',
             ),

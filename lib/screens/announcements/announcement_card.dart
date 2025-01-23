@@ -1,6 +1,8 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, no_leading_underscores_for_local_identifiers
 
+import 'package:assignment/themes/theme_logic.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AnnouncementCard extends StatelessWidget {
   final String imageUrl;
@@ -20,11 +22,12 @@ class AnnouncementCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeMode _themeMode = context.watch<ThemeLogic>().mode;
     return GestureDetector(
       onTap: onCardPressed, // Trigger the onCardPressed callback on tap
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: _themeMode == ThemeMode.dark ? Colors.grey.shade900 : Colors.grey.shade300,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(

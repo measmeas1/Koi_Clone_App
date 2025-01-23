@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_super_parameters, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 
@@ -35,7 +35,7 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
             _buildSubtitle(announcement["subtitle"]),
             SizedBox(height: 20),
             ..._buildSections(announcement["sections"]),
-            // _buildClickableBox("Yakult Green Tea", "\$2.8", (){}, "lib/assets/yakult-removebg-preview.png")
+            
             _buildClickableBox(productName, price, imagePath)
           ],
         ),

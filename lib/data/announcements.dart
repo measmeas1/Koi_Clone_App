@@ -1,6 +1,6 @@
 final List<Map<String, dynamic>> announcements = [
   {
-    "imageUrl": "lib/assets/koi_3.jpg", // Replace with actual image URL
+    "imageUrl": "lib/assets/koi_3.jpg", 
     "title": "🧋🥛☘️ Yakult Green Tea ☘️🥛🧋",
     "subtitle": "New Year, New Drink! 👋👋",
     "product_name": "Yakult Green Tea",
@@ -23,7 +23,7 @@ final List<Map<String, dynamic>> announcements = [
     ]
   },
   {
-    "imageUrl": "lib/assets/koi_2.jpg", // Replace with actual image URL
+    "imageUrl": "lib/assets/koi_2.jpg", 
     "title": "Introducing Fruit Tea Series 🍑🥭🍋 😍🧡",
     "subtitle": "The Fruit Tea Series available with passion, mango, peach, and Japanese yuzu, Perfect for this season!🙌☀️🍹",
     "product_name": "Passion Green Tea",
@@ -41,21 +41,23 @@ final List<Map<String, dynamic>> announcements = [
       }
     ],
   },
-  {
-    "imageUrl": "lib/assets/koi_4.jpg", // Replace with actual image URL
-    "title": "Yakult Green ",
-    "subtitle": "New Year, New Drink!",
+   {
+    "imageUrl": "lib/assets/strawberry.jpg", 
+    "title": "Yogurt Strawberry 🍓🍓",
+    "subtitle": "Yogurt Strawberry Green Milk Tea 🍓🍵",
+    "product_name": "Yogurt Strawberry",
+    "price": "\$2.3",
+    "image_path": "lib/assets/strawberry_pic.png",
     "sections": [
       {
-        "title": "Section 1 Title",
-        "subtitle": "Subtitle 1",
-        "paragraph": "This is a detailed paragraph for section 1.",
+        "heading": "Good Time with new Drink 🍓🧋🧋",
+        "paragraph":
+            "New Drink, new taste, Yogurt Strawberry Tea is available from today ✨",
+        "paragraph_2": "Available at all branches ❣️",
         "images": [
-          "lib/assets/image1.jpg",
-          "lib/assets/image2.jpg",
-          "lib/assets/image3.jpg",
+          "lib/assets/strawberry.jpg",
         ],
-      },
+      }
     ],
   },
 ];

@@ -1,10 +1,9 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_final_fields, unused_field
 
 import 'package:assignment/data/announcements.dart';
-import 'package:assignment/screens/account_screen.dart';
-import 'package:assignment/screens/announcement_detail_screen.dart';
-import 'package:assignment/screens/announcement_screen.dart';
-import 'package:assignment/widgets/announcement_card.dart';
+import 'package:assignment/screens/announcements/announcement_detail_screen.dart';
+import 'package:assignment/screens/announcements/announcement_screen.dart';
+import 'package:assignment/screens/announcements/announcement_card.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,13 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
     'lib/assets/red_green.jpg',
   ];
 
-  final List<Widget> _screens = [
-    HomeScreen(), // Home screen widget
-    // MenuScreen(),   // Menu screen widget
-    // HistoryScreen(),// History screen widget
-    AccountScreen(), // Account screen widget
-  ];
-
   @override
   Widget build(BuildContext context) {
     String greetingMessage = _getGreetingMessage();
@@ -48,6 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 40),
 
             _buildPickupAndDelivery(),
+            
+            SizedBox(height: 40,),
 
             _buildAnnouncementsSection()
           ],
@@ -132,9 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       // "\$${_balance.toStringAsFixed(2)}",
                       style: const TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors
-                            .black, // Optional: color to indicate it's clickable
+                        fontWeight: FontWeight.bold,// Optional: color to indicate it's clickable
                       ),
                     ),
                   ],
@@ -161,9 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           _bubbles.toString(),
                           style: const TextStyle(
                             fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors
-                                .black, // Optional: color to indicate it's clickable
+                            fontWeight: FontWeight.bold, // Optional: color to indicate it's clickable
                           ),
                         ),
                         Icon(Icons.bubble_chart_sharp)
@@ -354,12 +344,6 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
   }
 
   String _getGreetingMessage() {

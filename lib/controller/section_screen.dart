@@ -38,9 +38,9 @@ class _SectionScreenState extends State<SectionScreen> {
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'Menu'),
-          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History'),
-          BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: 'Account'),
+          BottomNavigationBarItem(icon: Icon(Icons.restaurant_menu_sharp), label: 'Menu'),
+          BottomNavigationBarItem(icon: Icon(Icons.article_outlined), label: 'History'),
+          BottomNavigationBarItem(icon: Icon(Icons.perm_identity), label: 'Account'),
         ],
         selectedItemColor: Colors.orange,
       ),

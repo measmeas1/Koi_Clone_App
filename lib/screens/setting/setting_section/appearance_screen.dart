@@ -1,6 +1,8 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_final_fields, no_leading_underscores_for_local_identifiers
 
+import 'package:assignment/themes/theme_logic.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AppearanceScreen extends StatefulWidget {
   const AppearanceScreen({super.key});
@@ -11,10 +13,10 @@ class AppearanceScreen extends StatefulWidget {
 
 class _AppearanceScreenState extends State<AppearanceScreen> {
   // Current theme mode
-  ThemeMode _themeMode = ThemeMode.system;
 
   @override
   Widget build(BuildContext context) {
+    ThemeMode _themeMode = context.watch<ThemeLogic>().mode;
     return Scaffold(
       appBar: AppBar(
         title: Center(
@@ -50,7 +52,7 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.grey.shade300,
+                color: _themeMode == ThemeMode.dark ? Colors.grey[900] : Colors.grey[300],
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Padding(
@@ -63,35 +65,22 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
                       imagePath: "lib/assets/light_mode.png",
                       title: "Light",
                       isSelected: _themeMode == ThemeMode.light,
-                      onSelect: () {
-                        setState(() {
-                          _themeMode = ThemeMode.light;
-                        });
-                      },
+                      onSelect: () => context.read<ThemeLogic>().changeToLight(),
                     ),
-                    Divider(color: Colors.grey.shade400),
                     // Dark Mode Section
                     _buildThemeSection(
                       imagePath: "lib/assets/dark_mode.png",
                       title: "Dark",
                       isSelected: _themeMode == ThemeMode.dark,
-                      onSelect: () {
-                        setState(() {
-                          _themeMode = ThemeMode.dark;
-                        });
-                      },
+                      onSelect: () => context.read<ThemeLogic>().changeToDark(),
                     ),
-                    Divider(color: Colors.grey.shade400),
+
                     // Automatic Mode Section
                     _buildThemeSection(
                       imagePath: "lib/assets/auto_mode.png",
                       title: "Automatic",
                       isSelected: _themeMode == ThemeMode.system,
-                      onSelect: () {
-                        setState(() {
-                          _themeMode = ThemeMode.system;
-                        });
-                      },
+                      onSelect: () => context.read<ThemeLogic>().changeToSystem(),
                     ),
                   ],
                 ),
@@ -123,7 +112,6 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
               height: 170,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                color: Colors.white,
               ),
               child: Image.asset(
                 imagePath,
