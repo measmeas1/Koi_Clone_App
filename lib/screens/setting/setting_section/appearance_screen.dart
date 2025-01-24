@@ -18,24 +18,31 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
   Widget build(BuildContext context) {
     ThemeMode _themeMode = context.watch<ThemeLogic>().mode;
     return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child: Padding(
-            padding: const EdgeInsets.only(right: 50),
-            child: Text(
-              "APPEARANCE",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
+      appBar: _buildAppBar(),
+      body: _buildMainSection(_themeMode)
+    );
+  }
+ 
+    AppBar _buildAppBar() {
+    return AppBar(
+      title: Center(
+        child: Padding(
+          padding: const EdgeInsets.only(right: 50.0),
+          child: Text(
+            "APPEARANCE",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.orange.shade700),
-          onPressed: () {
-            Navigator.pop(context); // Go back to the previous screen
-          },
-        ),
       ),
-      body: Padding(
+      leading: IconButton(
+        onPressed: () => Navigator.pop(context),
+        icon: Icon(Icons.arrow_back_ios, color: Colors.orange.shade700),
+      ),
+    );
+  }
+
+  Widget _buildMainSection(ThemeMode _themeMode){
+    return Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,10 +95,8 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
-
   // Helper method to build a theme section
   Widget _buildThemeSection({
     required String imagePath,

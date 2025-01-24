@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -12,3 +14,4 @@ class MenuScreen extends StatelessWidget {
     );
   }
 }
+
