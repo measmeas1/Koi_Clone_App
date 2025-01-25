@@ -1,5 +1,6 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, no_leading_underscores_for_local_identifiers
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, no_leading_underscores_for_local_identifiers, unused_element, prefer_final_fields
 
+import 'package:assignment/login_screen.dart';
 import 'package:assignment/screens/setting/setting_section/about_us_app.dart';
 import 'package:assignment/screens/setting/setting_section/appearance_screen.dart';
 import 'package:assignment/screens/setting/setting_section/faq_screen.dart';
@@ -40,7 +41,13 @@ class _SettingScreenState extends State<SettingScreen> {
               _buildContainer(Icons.document_scanner_outlined,
                   'Terms & Condition', context, TermScreen()),
               _buildContainer(
-                  Icons.feedback_outlined, 'About Us', context, AboutUsApp())
+                  Icons.feedback_outlined, 'About Us', context, AboutUsApp()),
+              SizedBox(
+                height: 30,
+              ),
+              _buildContainer(
+                  Icons.logout_outlined, 'Log Out', context, LoginScreen(),
+                  textColor: Colors.red)
             ],
           ),
         ));
@@ -68,16 +75,26 @@ AppBar _buildAppBar(BuildContext context) {
 }
 
 Widget _buildContainer(
-    IconData icon, String label, BuildContext context, Widget tapScreen) {
+    IconData icon, String label, BuildContext context, Widget tapScreen,
+    {Color? textColor}) {
   ThemeMode _mode = context.watch<ThemeLogic>().mode;
   Color containerColor =
       _mode == ThemeMode.dark ? Colors.grey[900]! : Colors.grey[300]!;
   return GestureDetector(
     onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => tapScreen),
-      );
+      // Special logic for "Log Out" to prevent going back
+      if (label == 'Log Out') {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => tapScreen), // Goes to LoginScreen
+          (Route<dynamic> route) => false, // Removes all previous routes, preventing back navigation
+        );
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => tapScreen),
+        );
+      }
     },
     child: Padding(
       padding: const EdgeInsets.all(5.0),
@@ -105,9 +122,9 @@ Widget _buildContainer(
                 Text(
                   label,
                   style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ), // Smaller Text
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: textColor), // Smaller Text
                   textAlign: TextAlign.center,
                 ),
               ],

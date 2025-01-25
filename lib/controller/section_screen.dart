@@ -3,7 +3,7 @@
 import 'package:assignment/screens/account_screen.dart';
 import 'package:assignment/screens/history_screen.dart';
 import 'package:assignment/screens/home_screen.dart';
-import 'package:assignment/screens/menu_screen.dart';
+import 'package:assignment/screens/MenuScreen/menu_screen.dart';
 import 'package:flutter/material.dart';
 
 class SectionScreen extends StatefulWidget {
