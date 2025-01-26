@@ -4,22 +4,22 @@ import 'package:assignment/themes/theme_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class MenuItem extends StatefulWidget {
+class OrderScreen extends StatefulWidget {
   final Map<String, dynamic> item;
-  const MenuItem({super.key, required this.item});
+  const OrderScreen({super.key, required this.item});
 
   @override
-  State<MenuItem> createState() => _MenuItemState();
+  State<OrderScreen> createState() => _OrderScreenState();
 }
 
-class _MenuItemState extends State<MenuItem> {
+class _OrderScreenState extends State<OrderScreen> {
   @override
   Widget build(BuildContext context) {
     ThemeMode _themeMode = context.watch<ThemeLogic>().mode;
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.item[
-            "name"]), // Dynamically set the title based on the selected item
+        title: Text(widget.item["order"][0][
+            "product_name"]), // Dynamically set the title based on the selected item
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -45,7 +45,7 @@ class _MenuItemState extends State<MenuItem> {
                 height: 300,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(widget.item["screen"]),
+                    image: AssetImage(widget.item["order"][0]["screen"]),
                     fit: BoxFit
                         .cover, // This ensures the image covers the entire area
                   ),
@@ -53,7 +53,7 @@ class _MenuItemState extends State<MenuItem> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(widget.item["name"], style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                child: Text(widget.item["order"][0]["product_name"], style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
               )
             ],
           ),

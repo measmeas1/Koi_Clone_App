@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:assignment/screens/MenuScreen/menu_item.dart';
-import 'package:assignment/screens/MenuScreen/menu_item_data.dart';
+import 'package:assignment/data/announcements.dart';
+import 'package:assignment/screens/MenuScreen/order_screen.dart';
 import 'package:flutter/material.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -9,17 +9,18 @@ class MenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> items = menuItems;
+    final List<Map<String, dynamic>> items = announcements;
     return Scaffold(
       appBar: _buildAppBar(),
       body: ListView.builder(
         itemCount: items.length,
         itemBuilder: (context, index) {
           final item = items[index];
+          final order = item["order"][0]; 
           return GestureDetector(
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MenuItem(item: item))
+                  MaterialPageRoute(builder: (context) => OrderScreen(item: item))
               );
             },
             child: Padding(
@@ -39,18 +40,18 @@ class MenuScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    item["name"],
+                    order["product_name"],
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 5),
                   Text(
-                    item["price"],
+                    order["price"],
                     style: TextStyle(color: Colors.grey.shade600, fontSize: 18),
                   ),
                 ],
               ),
             ),
-            Image.asset(item["item"])
+            Image.asset(order["image_path"])
           ],
         ),
       ),

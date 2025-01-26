@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_super_parameters, library_private_types_in_public_api
 
+import 'package:assignment/screens/MenuScreen/order_screen.dart';
 import 'package:flutter/material.dart';
 
 class AnnouncementDetailScreen extends StatefulWidget {
@@ -18,10 +19,6 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
   Widget build(BuildContext context) {
     final announcement = widget.announcement;
 
-    String productName = announcement["product_name"];  // Example: "Yakult Green Tea"
-    String price = announcement["price"];  // Example: "\$2.8"
-    String imagePath = announcement["image_path"]; 
-
     return Scaffold(
       appBar: _buildAppBar(context),
       body: SingleChildScrollView(
@@ -35,8 +32,8 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
             _buildSubtitle(announcement["subtitle"]),
             SizedBox(height: 20),
             ..._buildSections(announcement["sections"]),
-            
-            _buildClickableBox(productName, price, imagePath)
+             // ignore: unnecessary_to_list_in_spreads
+            _buildClickableBox(announcement)
           ],
         ),
       ),
@@ -117,49 +114,51 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
       ],
     );
   }
-}
 
-Widget _buildClickableBox(String productName, String price, String imagePath) {
-  return GestureDetector(
-    onTap: () {
-      // Handle the tap action if needed
-    },
-    child: Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Container(
-        width: 300,
-        height: 100,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Colors.grey, width: 0.8)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    productName,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 5),
-                  Text(
-                    price,
-                    style: TextStyle(color: Colors.grey.shade600, fontSize: 18),
-                  ),
-                ],
+  Widget _buildClickableBox(Map<String, dynamic> item) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => OrderScreen(item: item)));
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Container(
+          width: 300,
+          height: 100,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Colors.grey, width: 0.8)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      item["order"][0]["product_name"],
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      item["order"][0]["price"],
+                      style:
+                          TextStyle(color: Colors.grey.shade600, fontSize: 18),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Image.asset(imagePath)
-          ],
+              Image.asset(item["order"][0]["image_path"])
+            ],
+          ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
-
 
 // This is now a Stateful widget to manage the image carousel
 class ImageCarousel extends StatefulWidget {

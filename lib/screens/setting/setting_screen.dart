@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, no_leading_underscores_for_local_identifiers, unused_element, prefer_final_fields
 
-import 'package:assignment/login_screen.dart';
+import 'package:assignment/screens/login_screen.dart';
 import 'package:assignment/screens/setting/setting_section/about_us_app.dart';
 import 'package:assignment/screens/setting/setting_section/appearance_screen.dart';
 import 'package:assignment/screens/setting/setting_section/faq_screen.dart';

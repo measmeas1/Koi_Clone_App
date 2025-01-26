@@ -1,7 +1,7 @@
 
 // ignore_for_file: prefer_const_constructors
 
-import 'package:assignment/login_screen.dart';
+import 'package:assignment/screens/login_screen.dart';
 import 'package:assignment/providers/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

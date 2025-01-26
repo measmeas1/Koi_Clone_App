@@ -27,7 +27,9 @@ class AnnouncementCard extends StatelessWidget {
       onTap: onCardPressed, // Trigger the onCardPressed callback on tap
       child: Container(
         decoration: BoxDecoration(
-          color: _themeMode == ThemeMode.dark ? Colors.grey.shade900 : Colors.grey.shade300,
+          color: _themeMode == ThemeMode.dark
+              ? Colors.grey.shade900
+              : Colors.grey.shade300,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
@@ -81,9 +83,7 @@ class AnnouncementCard extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(bottom: 10),
                     child: ElevatedButton(
-                      onPressed: (){
-                        print("sfd");
-                      },
+                      onPressed: onOrderPressed,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.orange.shade100,
                         shape: RoundedRectangleBorder(
