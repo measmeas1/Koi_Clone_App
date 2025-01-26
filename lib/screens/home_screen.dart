@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_final_fields, unused_field, use_key_in_widget_constructors
 
-import 'package:assignment/data/announcements.dart';
+import 'package:assignment/data/data.dart';
 import 'package:assignment/screens/announcements/announcement_detail_screen.dart';
 import 'package:assignment/screens/announcements/announcement_screen.dart';
 import 'package:assignment/screens/announcements/announcement_card.dart';
@@ -40,8 +40,10 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 40),
 
             _buildPickupAndDelivery(),
-            
-            SizedBox(height: 40,),
+
+            SizedBox(
+              height: 40,
+            ),
 
             _buildAnnouncementsSection()
           ],
@@ -126,7 +128,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       // "\$${_balance.toStringAsFixed(2)}",
                       style: const TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.bold,// Optional: color to indicate it's clickable
+                        fontWeight: FontWeight
+                            .bold, // Optional: color to indicate it's clickable
                       ),
                     ),
                   ],
@@ -153,7 +156,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           _bubbles.toString(),
                           style: const TextStyle(
                             fontSize: 18,
-                            fontWeight: FontWeight.bold, // Optional: color to indicate it's clickable
+                            fontWeight: FontWeight
+                                .bold, // Optional: color to indicate it's clickable
                           ),
                         ),
                         Icon(Icons.bubble_chart_sharp)
@@ -279,13 +283,24 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildAnnouncementsSection() {
+    List<Map<String, dynamic>> validAnnouncements =
+        announcements.where((announcement) {
+      return announcement["imageUrl"] != null &&
+          announcement["imageUrl"].isNotEmpty &&
+          announcement["title"] != null &&
+          announcement["title"].isNotEmpty &&
+          announcement["subtitle"] != null &&
+          announcement["subtitle"].isNotEmpty &&
+          (announcement["sections"] != null &&
+              announcement["sections"].isNotEmpty);
+    }).toList();
+
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: announcements.length +
-            1, // Add one for the title and "See All" link
+        itemCount: validAnnouncements.length + 1, // Add one for the title and "See All" link
         itemBuilder: (context, index) {
           // Check if we are at the first item (Announcements title + See All link)
           if (index == 0) {
@@ -310,7 +325,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => AnnouncementScreen(
-                                  announcements: announcements)));
+                                  announcements: validAnnouncements)));
                     },
                   ),
                 ],
@@ -319,7 +334,7 @@ class _HomeScreenState extends State<HomeScreen> {
           } else {
             // If not the first item, return an AnnouncementCard
             final announcement =
-                announcements[index - 1]; // Adjust index to skip the title row
+                validAnnouncements[index - 1]; // Adjust index to skip the title row
             return Padding(
               padding: const EdgeInsets.only(bottom: 20),
               child: AnnouncementCard(

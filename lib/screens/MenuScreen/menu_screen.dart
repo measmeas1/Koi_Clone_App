@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:assignment/data/announcements.dart';
+import 'package:assignment/data/data.dart';
 import 'package:assignment/screens/MenuScreen/order_screen.dart';
 import 'package:flutter/material.dart';
 

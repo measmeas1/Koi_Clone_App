@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:assignment/data/announcements.dart';
+import 'package:assignment/screens/MenuScreen/order_screen.dart';
 import 'package:assignment/screens/announcements/announcement_detail_screen.dart';
 import 'package:assignment/screens/announcements/announcement_card.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +12,18 @@ class AnnouncementScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Map<String, dynamic>> validAnnouncements = announcements.where((announcement) {
+      return announcement["imageUrl"] != null && 
+             announcement["imageUrl"].isNotEmpty &&
+             announcement["title"] != null &&
+             announcement["title"].isNotEmpty &&
+             announcement["subtitle"] != null &&
+             announcement["subtitle"].isNotEmpty &&
+             (announcement["sections"] != null && announcement["sections"].isNotEmpty);
+    }).toList();
     return Scaffold(
       appBar: _buildAppbar(context), 
-      body: _buildBody()
+      body: _buildBody(validAnnouncements)
     );
   }
 }
@@ -40,7 +49,7 @@ AppBar _buildAppbar(BuildContext context) {
   );
 }
 
-Widget _buildBody() {
+Widget _buildBody(List<Map<String, dynamic>> announcements) {
   return Padding(
     padding: const EdgeInsets.only(left: 20, right: 20),
     child: ListView.builder(
@@ -54,7 +63,15 @@ Widget _buildBody() {
             imageUrl: announcement["imageUrl"]!,
             title: announcement["title"]!,
             subtitle: announcement["subtitle"]!,
-            onOrderPressed: () {},
+            onOrderPressed: () {
+              final order = announcement["order"][0]; // Assuming there's only one order per item
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => OrderScreen(item: order),
+                ),
+              );
+            },
             onCardPressed: () {
               // Handle card press action (e.g., navigate to details)
               Navigator.push(

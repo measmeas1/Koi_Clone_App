@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, no_leading_underscores_for_local_identifiers
 
-import 'package:assignment/data/announcements.dart';
+import 'package:assignment/data/data.dart';
 import 'package:assignment/screens/announcements/announcement_screen.dart';
 import 'package:assignment/screens/home_screen.dart';
 import 'package:assignment/screens/setting/setting_screen.dart';

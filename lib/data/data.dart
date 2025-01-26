@@ -57,7 +57,7 @@ final List<Map<String, dynamic>> announcements = [
       }
     ]
   },
-  
+
   {
     "imageUrl": "lib/assets/strawberry.jpg",
     "title": "Yogurt Strawberry 🍓🍓",
@@ -82,4 +82,15 @@ final List<Map<String, dynamic>> announcements = [
       }
     ]
   },
+
+  {
+    "order": [
+      {
+        "product_name": "Yogurt Strawberry",
+        "price": "\$2.3",
+        "image_path": "lib/assets/strawberry_pic.png",
+        "screen": "lib/assets/strawberry.jpg",
+      }
+    ]
+  }
 ];
