@@ -7,7 +7,8 @@ import 'package:assignment/screens/MenuScreen/menu_screen.dart';
 import 'package:flutter/material.dart';
 
 class SectionScreen extends StatefulWidget {
-  const SectionScreen({super.key});
+  final int selectedIndex;
+  const SectionScreen({super.key, required this.selectedIndex});
 
   @override
   State<SectionScreen> createState() => _SectionScreenState();
@@ -23,6 +24,12 @@ class _SectionScreenState extends State<SectionScreen> {
     HistoryScreen(),
     AccountScreen(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.selectedIndex; // Set the initial tab based on the passed index
+  }
 
   @override
   Widget build(BuildContext context) {

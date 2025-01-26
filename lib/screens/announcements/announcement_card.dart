@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, no_leading_underscores_for_local_identifiers
 
+import 'package:assignment/controller/section_screen.dart';
 import 'package:assignment/themes/theme_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -75,7 +76,9 @@ class AnnouncementCard extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(bottom: 10),
                           child: ElevatedButton(
-                            onPressed: onOrderPressed,
+                            onPressed: (){
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SectionScreen(selectedIndex: 1)));
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.orange.shade100,
                               shape: RoundedRectangleBorder(

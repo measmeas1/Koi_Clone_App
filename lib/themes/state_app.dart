@@ -26,7 +26,7 @@ class StateApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SectionScreen(),
+      home: SectionScreen(selectedIndex: 0,),
       themeMode: mode,
       theme: ThemeData(
         useMaterial3: true,
