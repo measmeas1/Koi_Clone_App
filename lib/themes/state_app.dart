@@ -35,8 +35,7 @@ class StateApp extends StatelessWidget {
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
-        ),
-        cardColor: Colors.grey.shade300
+        )
       
       ),
       darkTheme: ThemeData(
@@ -47,7 +46,6 @@ class StateApp extends StatelessWidget {
           backgroundColor: Colors.black,
           foregroundColor: Colors.white,
         ),
-        cardColor: Colors.grey.shade900
         
       ),
     );

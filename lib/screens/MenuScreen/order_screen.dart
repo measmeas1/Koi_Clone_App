@@ -18,8 +18,8 @@ class _OrderScreenState extends State<OrderScreen> {
   String selectedIceLevel = 'Normal Ice';
   List<String> selectedToppings = [];
   String? selectedToppingLevel;
-  double basePrice = 3.2;
-  Map<String, double> cupSizePrices = {'S': 2.3, 'M': 3.2, 'L': 4.0};
+  int quantity = 1;
+ 
   Map<String, double> toppingPrices = {
     'Konjac Jelly': 0.1,
     'Konjac Ball': 0.1,
@@ -31,14 +31,33 @@ class _OrderScreenState extends State<OrderScreen> {
     'Taro Ball': 0.1,
   };
 
-  int quantity = 1;
+   double calculatePriceForSize(String size) {
+    // Extract the base price (small size)
+    double basePrice = double.tryParse(widget.item["order"][0]["price"].replaceAll(RegExp(r'[^0-9.]'), '')) ?? 0.0;
 
+    // Adjust based on size
+    switch (size) {
+      case 'M':  // Medium size
+        return basePrice + 0.8;
+      case 'L':  // Large size
+        return basePrice + 0.8 + 0.7;  // Base price + Medium adjustment + Large adjustment
+      default:  // Default to small size
+        return basePrice;
+    }
+  }
+
+  // Calculate subtotal
   double calculateSubtotal() {
     double toppingCost = selectedToppings
         .map((topping) => toppingPrices[topping] ?? 0)
         .fold(0, (a, b) => a + b);
-    return (cupSizePrices[selectedCupSize]! + toppingCost) * quantity;
+
+    // Calculate the subtotal based on the selected cup size (S, M, L)
+    double sizePrice = calculatePriceForSize(selectedCupSize);
+    
+    return (sizePrice + toppingCost) * quantity;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -92,18 +111,18 @@ class _OrderScreenState extends State<OrderScreen> {
                   mainAxisSpacing: 8,
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  children: cupSizePrices.keys.map((size) {
-                    return _buildSelectableButton(
-                      size,
-                      '\$${cupSizePrices[size]!.toStringAsFixed(2)}',
-                      selectedCupSize,
-                      (value) {
-                        setState(() {
-                          selectedCupSize = value;
-                        });
-                      },
-                    );
-                  }).toList(),
+                  children: ['S', 'M', 'L'].map((size) {
+                  return _buildSelectableButton(
+                    size,
+                    '\$${calculatePriceForSize(size).toStringAsFixed(2)}',
+                    selectedCupSize,
+                    (value) {
+                      setState(() {
+                        selectedCupSize = value;
+                      });
+                    },
+                  );
+                }).toList(),
                 ),
 
                 const SizedBox(height: 24),
@@ -157,7 +176,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 const SizedBox(height: 24),
 
                 // TOPPING
-                _buildSectionTitle('Topping (Max 2)', ''),
+                _buildSectionTitle('Topping', ''),
                 GridView.count(
                   crossAxisCount: 4,
                   crossAxisSpacing: 8,
@@ -229,15 +248,16 @@ class _OrderScreenState extends State<OrderScreen> {
               150, // Fixed height for the bottom container // Background color for the container
           padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-            color: _themeMode == ThemeMode.dark ? Colors.black : Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: _themeMode == ThemeMode.dark ? Colors.white.withOpacity(0.4) : Colors.black.withOpacity(0.4),
-                blurRadius: 20,
-                spreadRadius: 2,
-              ),
-            ]
-          ),
+              color: _themeMode == ThemeMode.dark ? Colors.black : Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: _themeMode == ThemeMode.dark
+                      ? Colors.white.withOpacity(0.4)
+                      : Colors.black.withOpacity(0.4),
+                  blurRadius: 20,
+                  spreadRadius: 2,
+                ),
+              ]),
           child: Column(
               mainAxisSize:
                   MainAxisSize.min, // Ensures the content fits its size
@@ -324,34 +344,52 @@ class _OrderScreenState extends State<OrderScreen> {
       {IconData? icon}) {
     bool isSelected = selectedValue == title;
 
+    ThemeMode _themeMode = context.watch<ThemeLogic>().mode;
+
+    // Determine the background color based on theme mode and selection
+    Color backgroundColor = _themeMode == ThemeMode.dark
+        ? (isSelected ? Colors.orange : Colors.grey[800]!)
+        : (isSelected ? Colors.orange : Colors.grey[200]!);
+
+    // Determine the border color based on theme mode and selection
+    Color borderColor = _themeMode == ThemeMode.dark
+        ? (isSelected ? Colors.orange : Colors.grey[600]!)
+        : (isSelected ? Colors.orange : Colors.grey[400]!);
+
     return GestureDetector(
       onTap: () => onTap(title),
-      child: Container(
-        decoration: BoxDecoration(
-          color: isSelected ? Colors.orange : Colors.grey[200],
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: isSelected ? Colors.orange : Colors.grey,
-            width: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: borderColor,
+              width: 2,
+            ),
           ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (icon != null)
-              Icon(icon,
-                  size: 20,
-                  color: isSelected ? Colors.white : Colors.grey[700]),
-            const SizedBox(height: 4),
-            Text(title, style: const TextStyle(fontSize: 16)),
-            if (subtitle.isNotEmpty)
-              Text(
-                subtitle,
-                style: TextStyle(
-                    fontSize: 12,
-                    color: isSelected ? Colors.white : Colors.grey),
-              ),
-          ],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (icon != null)
+                Icon(icon,
+                    size: 20,
+                    color: isSelected ? Colors.white : Colors.grey[700]),
+              const SizedBox(height: 4),
+              Text(title,
+                  style: const TextStyle(
+                    fontSize: 16,
+                  )),
+              if (subtitle.isNotEmpty)
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                      fontSize: 12,
+                      color: isSelected ? Colors.white : Colors.grey.shade600),
+                ),
+            ],
+          ),
         ),
       ),
     );
@@ -365,7 +403,10 @@ class _OrderScreenState extends State<OrderScreen> {
         children: [
           Text(
             title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           Text(
             subtitle,
