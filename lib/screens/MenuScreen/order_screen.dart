@@ -19,7 +19,7 @@ class _OrderScreenState extends State<OrderScreen> {
   List<String> selectedToppings = [];
   String? selectedToppingLevel;
   int quantity = 1;
- 
+
   Map<String, double> toppingPrices = {
     'Konjac Jelly': 0.1,
     'Konjac Ball': 0.1,
@@ -31,17 +31,21 @@ class _OrderScreenState extends State<OrderScreen> {
     'Taro Ball': 0.1,
   };
 
-   double calculatePriceForSize(String size) {
+  double calculatePriceForSize(String size) {
     // Extract the base price (small size)
-    double basePrice = double.tryParse(widget.item["order"][0]["price"].replaceAll(RegExp(r'[^0-9.]'), '')) ?? 0.0;
+    double basePrice = double.tryParse(widget.item["order"][0]["price"]
+            .replaceAll(RegExp(r'[^0-9.]'), '')) ??
+        0.0;
 
     // Adjust based on size
     switch (size) {
-      case 'M':  // Medium size
+      case 'M': // Medium size
         return basePrice + 0.8;
-      case 'L':  // Large size
-        return basePrice + 0.8 + 0.7;  // Base price + Medium adjustment + Large adjustment
-      default:  // Default to small size
+      case 'L': // Large size
+        return basePrice +
+            0.8 +
+            0.7; // Base price + Medium adjustment + Large adjustment
+      default: // Default to small size
         return basePrice;
     }
   }
@@ -54,10 +58,9 @@ class _OrderScreenState extends State<OrderScreen> {
 
     // Calculate the subtotal based on the selected cup size (S, M, L)
     double sizePrice = calculatePriceForSize(selectedCupSize);
-    
+
     return (sizePrice + toppingCost) * quantity;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +68,20 @@ class _OrderScreenState extends State<OrderScreen> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.item["order"][0]["product_name"]),
+          title: Padding(
+            padding: const EdgeInsets.only(right: 50.0),
+            child: Center(
+                child: Text(
+              widget.item["order"][0]["product_name"],
+            )),
+          ),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios, color: Colors.orange.shade700),
+            onPressed: () {
+              // Go back to the home page (or pop the current route from the navigation stack)
+              Navigator.pop(context);
+            },
+          ),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -102,6 +118,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   ),
                 ),
+                SizedBox(height: 40,),
 
                 // CUP SIZE
                 _buildSectionTitle('Cup Size', '1 Required'),
@@ -112,17 +129,17 @@ class _OrderScreenState extends State<OrderScreen> {
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   children: ['S', 'M', 'L'].map((size) {
-                  return _buildSelectableButton(
-                    size,
-                    '\$${calculatePriceForSize(size).toStringAsFixed(2)}',
-                    selectedCupSize,
-                    (value) {
-                      setState(() {
-                        selectedCupSize = value;
-                      });
-                    },
-                  );
-                }).toList(),
+                    return _buildSelectableButton(
+                      size,
+                      '\$${calculatePriceForSize(size).toStringAsFixed(2)}',
+                      selectedCupSize,
+                      (value) {
+                        setState(() {
+                          selectedCupSize = value;
+                        });
+                      },
+                    );
+                  }).toList(),
                 ),
 
                 const SizedBox(height: 24),
